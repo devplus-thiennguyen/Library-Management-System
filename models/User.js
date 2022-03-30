@@ -28,7 +28,7 @@ const userSchema = new mongoose.Schema({
         type: Number,
         default: 0
     },
-    history: {
+    borrow: {
         type: Array,
         default: []
     },

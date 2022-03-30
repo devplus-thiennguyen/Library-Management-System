@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
 
-const { requireSignin, isAuth, isLibrarian} = require('../controllers/auth');
+const { requireSignin, isAuth, isLi, isLibrarian} = require('../controllers/auth');
 
-const { userById, read } = require('../controllers/user');
+const { userById, read, listUsers } = require('../controllers/user');
 
 router.get('/secret/:userId', requireSignin, isAuth, isLibrarian, (req, res) => {
     res.json({
@@ -12,7 +12,7 @@ router.get('/secret/:userId', requireSignin, isAuth, isLibrarian, (req, res) => 
 });
 
 router.get('/user/:userId', requireSignin, isAuth, read);
-
+router.get("/admin/listuser", requireSignin, isLibrarian, listUsers);
 router.param('userId', userById);
 
 module.exports = router;
