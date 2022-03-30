@@ -78,13 +78,13 @@ exports.isAuth = (req, res, next) => {
     next();
 };
 
-exports.isAdmin = (req, res, next) => {
+exports.isLibrarian = (req, res, next) => {
     try {
         const isUserRole = req.session.user.role;
 
         if(isUserRole !== 1) {
             return res.status(403).json({
-                message: 'unauthorize_admin'
+                message: 'unauthorize_librarian'
             });
         };
         return next();
