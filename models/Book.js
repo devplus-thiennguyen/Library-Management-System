@@ -4,20 +4,8 @@ const schema = mongoose.Schema({
         type: String,
         required: true
     },
-    isbn: {
-        type: String,
-        required: true
-    },
-    pageCount: {
-        type: Number,
-        required: true
-    },
     author: {
         type: mongoose.Schema.Types.ObjectId,
-        required: true
-    },
-    writtenIn: {
-        type: String,
         required: true
     },
     createdAt: {
