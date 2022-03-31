@@ -32,10 +32,6 @@ const userSchema = new mongoose.Schema({
         type: Array,
         default: []
     },
-    phonenumber:{
-      type: Number
-
-    }
 },
 { timestamps: true }
 );

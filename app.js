@@ -13,7 +13,7 @@ const uuidv1 = require('uuidv1')
 // import routes
 const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/user');
-
+const bookRoutes = require('./routes/book');
 
 // app
 const app = express();
@@ -136,6 +136,8 @@ app.use(cors());
 // routes middleware
 app.use('/api', authRoutes);
 app.use('/api', userRoutes);
+app.use('/api', bookRoutes);
+
 var server = app.listen(process.env.PORT || 3000 , function () {
     var port = server.address().port;
     console.log(`Server is running on port ${port}`)
