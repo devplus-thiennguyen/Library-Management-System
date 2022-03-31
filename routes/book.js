@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { create_book, get_books,update_book } = require('../controllers/book');
+const { create_book, get_books,update_book, remove_book } = require('../controllers/book');
 const { requireSignin, isAuth, isLibrarian} = require('../controllers/auth');
 
 
@@ -13,4 +13,7 @@ router.get('/listbook', get_books);
 
 // Update book
 router.put('/admin/book/:id', requireSignin, isLibrarian, update_book);
+
+//Delete book
+router.delete('/admin/book/:id', requireSignin, isLibrarian, remove_book);
 module.exports = router;

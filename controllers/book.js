@@ -26,9 +26,20 @@ exports.get_books = async (req, res) => {
 exports.update_book = async (req, res) => {
     await Book.findByIdAndUpdate(req.params.id, req.body, {useFindAndModify: false})
         .then(book => {
-            res.status(200).json({success: true,message: "Book has been updated", book});
+            res.status(200).json({success: true,message: "The book has been updated", book});
         })
         .catch(err => {
             res.status(500).json({success: false, message: err.message});
         });
 };
+
+//Delete book
+exports.remove_book = async (req, res) => {
+    await Book.findByIdAndDelete(req.params.id)
+        .then(book => {
+            res.status(200).json({success: true, message: "The book has been deleted"});
+        })
+        .catch(err => {
+            res.status(500).json({success: false, message: err.message});
+        });
+    };
