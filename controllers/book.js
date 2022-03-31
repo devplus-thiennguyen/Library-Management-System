@@ -10,3 +10,14 @@ exports.create_book = async (req, res) => {
         res.status(200).json({success: true, book});
     });
 };
+
+// Get all books
+exports.get_books = async (req, res) => {
+    await Book.find()
+        .then(books => {
+            res.status(200).json({success: true, count: books.length, books});
+        })
+        .catch(err => {
+            res.status(500).json({success: false, message: err.message});
+        });
+};
