@@ -8,6 +8,10 @@ const schema = mongoose.Schema({
         type: String,
         required: true
     },
+    status: {
+        type: String,
+        default: "Available"
+    },
     createdAt: {
         type: Date,
         default: Date.now
