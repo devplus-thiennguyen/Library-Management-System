@@ -87,7 +87,7 @@ exports.borrow_book = async (req, res) => {
  // // Returned book
  
  exports.return_book = async (req, res) => {
-    const status = "Returned";
+    const status = "Available";
     Book.findOne({ _id: req.params.id }, (err, book) => {
        if (err || !book) {
           return res.status(400).json({

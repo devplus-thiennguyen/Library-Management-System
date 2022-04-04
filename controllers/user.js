@@ -39,7 +39,7 @@ exports.update = (req, res) => {
     if (password) {
       if (password.length < 6) {
         return res.status(400).json({
-          error: "Password should be at least 6 characters long",
+          error: "Password should be min 6 characters long",
         });
       } else {
         user.password = password;
@@ -52,7 +52,7 @@ exports.update = (req, res) => {
         return res.status(400).json({
           error: "User update failed",
         });
-      }
+      } 
       updatedUser.hashed_password = undefined;
       updatedUser.salt = undefined;
       res.json(updatedUser);
@@ -79,7 +79,7 @@ exports.updaterole = (req, res) => {
     if (password) {
       if (password.length < 6) {
         return res.status(400).json({
-          error: "Password should be at least 6 characters long",
+          error: "Password should be min 6 characters long",
         });
       } else {
         user.password = password;
@@ -95,6 +95,7 @@ exports.updaterole = (req, res) => {
 
     user.save((err, updatedUser) => {
       if (err) {
+        console.log("USER UPDATE ERROR", err);
         return res.status(400).json({
           error: "User update failed",
         });
@@ -129,3 +130,61 @@ exports.remove = (req, res, next) => {
   });
 };
 
+exports.setLibrarian = async (req, res) => {
+  const role = "Librarian";
+  User.findOne({ _id: req.profile._id }, (err, user) => {
+     if (err || !user) {
+        return res.status(400).json({
+           error: "User not found",
+        });
+     }
+
+     if (role === user.role) {
+        return res.status(400).json({
+           error: "The user is already a librarian",
+        });
+     } else {
+        user.role = role;
+     }
+
+     user.save((err, updatedUser) => {
+        if (err) {
+           console.log("USER UPDATE ERROR", err);
+           return res.status(400).json({
+              error: "User update failed",
+           });
+        }
+        updatedUser.hashed_password = undefined;
+        res.json(updatedUser);
+     });
+  });
+};
+exports.setMember = async (req, res) => {
+  const role = "Member";
+  User.findOne({ _id: req.profile._id }, (err, user) => {
+     if (err || !user) {
+        return res.status(400).json({
+           error: "User not found",
+        });
+     }
+
+     if (role === user.role) {
+        return res.status(400).json({
+           error: "The user is already a member",
+        });
+     } else {
+        user.role = role;
+     }
+
+     user.save((err, updatedUser) => {
+        if (err) {
+           console.log("USER ROLE UPDATE ERROR", err);
+           return res.status(400).json({
+              error: "User role update failed",
+           });
+        }
+        updatedUser.hashed_password = undefined;
+        res.json(updatedUser);
+     });
+  });
+};

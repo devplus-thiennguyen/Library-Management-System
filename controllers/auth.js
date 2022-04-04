@@ -102,4 +102,49 @@ exports.isLibrarian = (req, res, next) => {
     }
 };
 
+exports.isUser = (req, res, next) => {
+    try {
+       let isUser = req.session.user._id == req.params.userId;
+       if (!isUser) {
+          return res.status(403).json({
+             message: "unauthorize user! You are not allowed to do that.",
+          });
+       }
+       return next();
+    } catch (error) {
+       return next(error);
+    }
+ };
 
+
+ exports.DupeLibrarian = async (req, res, next) => {
+    try {
+       let DupeLib = req.user.role == "librarian";
+       console.log(isLib, "role");
+       if (DupeLib) {
+          return res.status(403).json({
+             message: "This user is already a librarian",
+          });
+       }
+       return next();
+    } catch (error) {
+       return next(error);
+    }
+ };
+
+ exports.DupeLibrarian = async (req, res, next) => {
+    try {
+       let DupeLib = req.user.role == "Librarian";
+       console.log(isLib, "role");
+       if (DupeLib) {
+          return res.status(403).json({
+             message: "This user is already a librarian",
+          });
+       }
+       return next();
+    } catch (error) {
+       return next(error);
+    }
+ };
+
+ 
