@@ -39,7 +39,7 @@ exports.update = (req, res) => {
     if (password) {
       if (password.length < 6) {
         return res.status(400).json({
-          error: "Password should be min 6 characters long",
+          error: "Password should be at least 6 characters long",
         });
       } else {
         user.password = password;
@@ -79,7 +79,7 @@ exports.updaterole = (req, res) => {
     if (password) {
       if (password.length < 6) {
         return res.status(400).json({
-          error: "Password should be min 6 characters long",
+          error: "Password should be at least 6 characters long",
         });
       } else {
         user.password = password;
@@ -95,7 +95,6 @@ exports.updaterole = (req, res) => {
 
     user.save((err, updatedUser) => {
       if (err) {
-        console.log("USER UPDATE ERROR", err);
         return res.status(400).json({
           error: "User update failed",
         });
@@ -129,3 +128,4 @@ exports.remove = (req, res, next) => {
     }
   });
 };
+

@@ -58,33 +58,58 @@ exports.get_book = async (req, res) => {
 // Borrow book
 
 exports.borrow_book = async (req, res) => {
-   await Book.findByIdAndUpdate(req.params.id, {
-      status: "BORROWED",
-   })
-      .then((book) => {
-         res.status(200).json({
-            success: true,
-            message: "Status book has been change BORROWED",
-         });
-      })
-      .catch((err) => {
-         res.status(500).json({ success: false, message: err.message });
-      });
-};
-// Returned book
-
-exports.available_book = async (req, res) => {
-   await Book.findByIdAndUpdate(req.params.id, {
-      status: "AVAILABLE",
-   })
-
-      .then((book) => {
-         res.status(200).json({
-            success: true,
-            message: "Status book has been change AVAILABLE",
-         });
-      })
-      .catch((err) => {
-         res.status(500).json({ success: false, message: err.message });
-      });
-};
+    const status = "Borrowed";
+    Book.findOne({ _id: req.params.id }, (err, book) => {
+       if (err || !book) {
+          return res.status(400).json({
+             error: "Book not found",
+          });
+       }
+ 
+       if (status === book.status) {
+          return res.status(400).json({
+             error: "The book is being borrowed by another member",
+          });
+       } else {
+          book.status = status;
+       }
+ 
+       book.save((err, updatedBook) => {
+          if (err) {
+             return res.status(400).json({
+                error: "Book update failed",
+             });
+          }
+          res.json(updatedBook);
+       });
+    });
+ };
+ // // Returned book
+ 
+ exports.return_book = async (req, res) => {
+    const status = "Returned";
+    Book.findOne({ _id: req.params.id }, (err, book) => {
+       if (err || !book) {
+          return res.status(400).json({
+             error: "Book not found",
+          });
+       }
+ 
+       if (status === book.status) {
+          return res.status(400).json({
+             error: "Thanks for borrowing our book!",
+          });
+       } else {
+          book.status = status;
+       }
+ 
+       book.save((err, updatedBook) => {
+          if (err) {
+             return res.status(400).json({
+                error: "Book update failed",
+             });
+          }
+          res.json(updatedBook);
+       });
+    });
+ };

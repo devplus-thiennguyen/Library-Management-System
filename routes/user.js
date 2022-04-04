@@ -1,23 +1,25 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 
-const { requireSignin, isAuth, isLibrarian} = require('../controllers/auth');
+const { requireSignin, isAuth, isLibrarian, isUser } = require("../controllers/auth");
+const { userById, read, update, listUsers, remove} = require("../controllers/user");
 
-const { userById, read, update, listUsers, updaterole,remove } = require('../controllers/user');
+//Read a user
+router.get("/user/:userId", requireSignin, isAuth, read);
 
-router.get('/secret/:userId', requireSignin, isAuth, isLibrarian, (req, res) => {
-    res.json({
-        user: req.profile
-    });
-});
+//Admin list user
+router.get("/admin/user/listuser", requireSignin, isLibrarian, listUsers);
 
-router.get("/admin/listuser", requireSignin, isLibrarian, listUsers);
-router.get('/user/:userId', requireSignin, isAuth, read);
+//Admin delete a user
+router.delete("/delete/:userId", requireSignin, remove);
 
-router.put('/user/:userId', requireSignin,isAuth, update);
-router.put('/admin/:userId', requireSignin, isLibrarian, updaterole);
-router.delete('/admin/user/:userId', requireSignin, isLibrarian, remove);
 
-router.param('userId', userById);
+
+//user update their info
+router.put("/user/:userId", requireSignin, isAuth, update);
+
+
+
+router.param("userId", userById);
 
 module.exports = router;

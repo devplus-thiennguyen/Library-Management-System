@@ -62,7 +62,7 @@ const userSchema = new mongoose.Schema({
     salt: String,
     role: {
         type: String,
-        default: "Member"
+        default: "member"
     },
 },
 { timestamps: true }
