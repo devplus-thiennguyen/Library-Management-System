@@ -34,7 +34,7 @@ mongoose
    dbName: 'library'
 
 })
-.then(() => console.log("DB Connected")
+.then(() => console.log("DB is Connected")
 )
 .catch(err=>{
     console.log(`db error ${err.message}`);
@@ -108,11 +108,11 @@ collections
     
   })
   .then((ans) => {
-    console.log(ans);
-  })
-  .catch((err) => {
-    console.log(err.message);
-  });
+   console.log("Admin has been added");
+})
+.catch((err) => {
+   console.log("Librarian has already created");
+});
 
 // middlewares
 app.use(morgan('dev'));

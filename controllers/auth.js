@@ -2,8 +2,6 @@ const User = require('../models/user')
 const jwt = require('jsonwebtoken'); 
 const expressJwt = require('express-jwt');
 const { errorHandler } = require('../helpers/dbErrorHandler');
-const { body } = require('express-validator/check');
-const user = require('../models/user');
 
 exports.signup = (req, res) => {
     const user = new User(req.body);
@@ -67,7 +65,14 @@ exports.requireSignin = expressJwt({
     secret: process.env.JWT_SECRET,
     algorithms: ['HS256'],
     userProperty: "auth"
-});
+
+}),
+function(req, res) {
+  if (!req.isAuth) return res.sendStatus(401).json({
+    error: "Token invalid"
+  });
+  res.sendStatus(200);
+};;
 exports.isAuth = (req, res, next) => {
     let user = req.profile && req.auth && req.profile._id == req.auth._id
     if(!user) {
