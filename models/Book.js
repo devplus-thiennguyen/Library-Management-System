@@ -4,26 +4,18 @@ const schema = mongoose.Schema({
         type: String,
         required: true
     },
-    isbn: {
-        type: String,
-        required: true
-    },
-    pageCount: {
-        type: Number,
-        required: true
-    },
     author: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: String,
         required: true
     },
-    writtenIn: {
+    status: {
         type: String,
+        default: "Available",
         required: true
     },
     createdAt: {
         type: Date,
         default: Date.now
     }
-
 });
 module.exports = mongoose.model('Book', schema);
