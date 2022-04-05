@@ -1,43 +1,55 @@
 const express = require('express');
-
-const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
-const cors = require('cors');
 const morgan = require('morgan');
+const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
+const cors = require('cors');
+const expressValidator = require('express-validator');
+const session = require('express-session');
+require('dotenv').config();
 
-require('dotenv').config({
-    path: ".env"
-});
+
+// import routes
+const authRoutes = require('./routes/auth');
+const userRoutes = require('./routes/user');
 
 
-// Routers
-const apiRouter = require('./routes/api');
-
-// Connect to MongoDB
-mongoose.connect(process.env.MONGO_CONNECT, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useCreateIndex: true
-})
-    .then(() => {
-        console.log('Connected to database')
-    })
-    .catch(err => {
-        console.log(err);
-    });
-
+// app
 const app = express();
 
-// Routes
+app.set('trust proxy', 1) // trust first proxy
+app.use(session({
+  secret: 'huuthien',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: false }
+}))
+// db
+mongoose
+.connect(`mongodb+srv://admin:admin123@server.kpngk.mongodb.net/student?retryWrites=true&w=majority`,
+    {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+   dbName: 'library'
 
-app.use(cors({origin: 'http://localhost:8080', credentials: true}));
-app.use(cookieParser());
+})
+.then(() => console.log("DB Connected")
+)
+.catch(err=>{
+    console.log(`db error ${err.message}`);
+    process.exit(-1)
+});
+// middlewares
 app.use(morgan('dev'));
-app.use(express.json());
-app.use(express.urlencoded({extended: false}));
-app.use(express.static('public'));
+app.use(bodyParser.json());
+app.use(cookieParser());
+app.use(expressValidator());
+app.use(cors());
 
-app.use('/', apiRouter);
-
-
-module.exports = app;
+// routes middleware
+app.use('/api', authRoutes);
+app.use('/api', userRoutes);
+var server = app.listen(process.env.PORT || 3000 , function () {
+    var port = server.address().port;
+    console.log(`Server is running on port ${port}`)
+});
