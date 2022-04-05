@@ -1,29 +1,23 @@
 const mongoose = require('mongoose');
 const schema = mongoose.Schema({
-    title: {
+    firstName: {
         type: String,
         required: true
     },
-    isbn: {
+    lastName: {
         type: String,
         required: true
     },
-    pageCount: {
-        type: Number,
+    born: {
+        type: Date,
         required: true
     },
-    author: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true
-    },
-    writtenIn: {
-        type: String,
-        required: true
+    died: {
+        type: Date
     },
     createdAt: {
         type: Date,
         default: Date.now
     }
-
 });
-module.exports = mongoose.model('Book', schema);
+module.exports = mongoose.model('author', schema);
