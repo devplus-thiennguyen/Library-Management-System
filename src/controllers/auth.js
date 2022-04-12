@@ -34,7 +34,7 @@ exports.signin = (req, res) => {
 // create authenticate method in user model
 if(!user.authenticate(password)) {
     return res.status(401).json({
-        error: "Account information unvalid"
+        error: "Account information invalid"
     });
 }
     const newUser = {
@@ -56,7 +56,7 @@ return res.json({token, user: {_id, email, name, role}})
 };
 
 
-exports.signout = (req, res) => {
+exports.signout = (_req, res) => {
     res.clearCookie('t')
     res.json({
         message: "Signout Successfully"
@@ -95,7 +95,7 @@ exports.isLibrarian = (req, res, next) => {
             return res.status(403).json({
                 message: 'unauthorized librarian'
             });
-        };
+        }
         return next();
     } catch (error) {
         return next(error)
